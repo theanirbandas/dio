@@ -69,6 +69,11 @@ class DefaultHttpClientAdapter implements HttpClientAdapter {
       // Transform the request data
       await request.addStream(requestStream);
     }
+    
+    if(options.method == 'GET') {
+      request.headers.removeAll(HttpHeaders.contentLengthHeader);
+    }
+    
     var future = request.close();
     if (options.connectTimeout > 0) {
       future = future.timeout(Duration(milliseconds: options.connectTimeout));
